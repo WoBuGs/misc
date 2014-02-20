@@ -1,0 +1,10 @@
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[user]
+	name = WoBuGs
+	email = alexander.jacquin@gmail.com
+[core]
+	autocrlf = input
+	editor = vim
