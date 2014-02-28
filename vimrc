@@ -51,13 +51,17 @@ if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
 endif
 
+" Affichage des numéros de ligne
 set number
+
+" Met en valeur la ligne courante
+set cursorline
 
 set expandtab
 set tabstop=2
+
+" Largeur de l'autoindentation
 set shiftwidth=2
 
 set hlsearch
 set incsearch
-
-set textwidth=0
