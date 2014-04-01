@@ -1,4 +1,10 @@
-Config
+Various Templates
 ======
 
-Several configuration files
+# Configuration files
+- Shell
+- Git
+- Vim
+
+# Templates
+- C Sockets
