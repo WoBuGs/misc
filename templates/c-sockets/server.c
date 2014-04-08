@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <string.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+
 
 #define BUFF_LEN 1024
 
@@ -11,11 +14,17 @@
 int main(int argc, char ** argv){
   /* Variables */
   int sock;
-  struct sockaddr_in server, client;
-  int client_len;
+  struct sockaddr_in server;
   int mysock;
   char buff[BUFF_LEN];
   int rval;
+  int pid;
+
+  if (argc != 2) {
+    fprintf(stderr,"usage: %s port\n",argv[0]);
+    exit(1);
+  }
+
 
   /* Create socket */
   sock =socket(AF_INET, SOCK_STREAM, 0);
@@ -26,10 +35,10 @@ int main(int argc, char ** argv){
 
   server.sin_family = AF_INET;
   server.sin_addr.s_addr = INADDR_ANY;
-  server.sin_port = htons(5000);/* port utilisé par le serveur */
+  server.sin_port = htons(atoi(argv[1]));/* port utilisé par le serveur */
 
   /* Call bind */
-  if(bind(sock, (struct sockaddr *)&server, sizeof(server))){
+  if(bind(sock, (struct sockaddr *) &server, sizeof(server))){
     perror("Echec lors du bind");
     exit(1);
   }
@@ -37,25 +46,46 @@ int main(int argc, char ** argv){
   /* Listen */
   listen(sock, 5);
 
+  
+  printf("Serveur en écoute sur le port %d\n", ntohs(server.sin_port));
+
+
   /* Accept */
   while(1){
-    client_len = sizeof(client);
-    mysock = accept(sock, (struct sockaddr *) &client, &client_len);
-    if(mysock == -1){
-      perror("Echec lors du accept");
-    }else{
-      memset(buff, 0, BUFF_LEN);
-      if((rval = recv(mysock, buff, BUFF_LEN, 0)) < 0)
-        perror("Echec lors de la lecture");
-      else if(rval == 0)
-        printf("Fin de la connection");
-      else
-        printf("Message : %s\n", buff);
-      
-      printf("Message reçu ! (rval=%d)\n",rval);
-      close(mysock);
-      }
-    }
+    struct sockaddr_in client = { 0 };
+    int client_len = sizeof(client);
 
+    mysock = accept(sock, (struct sockaddr *) &client, &client_len);
+
+    /* fork() qui permet au serveur de rester à l'écoute */
+    switch(pid=fork()){
+      case -1: printf("Erreur fork()");
+               exit(1);
+      case 0: 
+               printf("Connection ouverte (fils) : %s:%d\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
+               if(mysock == -1){
+                 perror("Echec lors du accept");
+               }else{
+                 memset(buff, 0, BUFF_LEN);
+                 if((rval = recv(mysock, buff, BUFF_LEN, 0)) < 0)
+                   perror("Echec lors de la lecture");
+                 else if(rval == 0)
+                   printf("Fin de la connection");
+                 else
+                   printf("Message reçu : %s", buff);
+
+                 printf(" (rval=%d)\n",rval);
+                 close(mysock);
+               }
+               break;
+      default: 
+               if(mysock == -1){
+                 perror("Echec lors du accept");
+               }else{
+                 close(mysock);
+               }
+               break;
+    }
+  }
   return 0;
 }
