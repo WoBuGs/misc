@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <string.h>
 #include <netdb.h>
+#include <unistd.h>
 
 #define BUFF_LEN 1024
 
@@ -14,6 +15,13 @@ int main(int argc, char ** argv){
   struct sockaddr_in server;
   struct hostent * hp;
   char buff[BUFF_LEN];
+  int rval;
+
+  if (argc != 4) {
+    fprintf(stderr,"usage: %s host sport message\n",argv[0]);
+    exit(1);
+  }
+
 
   sock = socket(AF_INET, SOCK_STREAM, 0);
   if(sock < 0){
@@ -30,7 +38,7 @@ int main(int argc, char ** argv){
   }
 
   memcpy(&server.sin_addr, hp->h_addr, hp->h_length);
-  server.sin_port = htons(5000);
+  server.sin_port = htons(atoi(argv[2]));
 
   if(connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0){
     perror("Echec lors du connect");
@@ -39,17 +47,14 @@ int main(int argc, char ** argv){
   }
 
   memset(buff, 0, BUFF_LEN);
-  sprintf(buff, argv[2]);
-  printf("YOYOYO \n");
+  sprintf(buff, argv[3]);
   if(send(sock, buff, strlen(buff), 0) < 0){
     perror("Echec lors du send");
     close(sock);
     exit(1);
   }
 
-  printf("Message envoyé : %s", buff);
   close(sock);
 
-  fflush(stdout);
   return 0;
 }
