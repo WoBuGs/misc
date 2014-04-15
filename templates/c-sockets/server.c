@@ -39,7 +39,7 @@ int main(int argc, char ** argv){
   server.sin_port = htons(atoi(argv[1]));/* port utilisé par le serveur */
 
 
-  if(bind(sock, (struct sockaddr *) &server, sizeof(sockaddr_in))){
+  if(bind(sock, (struct sockaddr *) &server, sizeof(struct sockaddr_in))){
     perror("Echec lors du bind");
     exit(1);
   }
@@ -54,7 +54,7 @@ int main(int argc, char ** argv){
 
   while(1){
     struct sockaddr_in client = { 0 };
-    int client_len = sizeof(sockaddr_in);
+    int client_len = sizeof(struct sockaddr_in);
 
     mysock = accept(sock, (struct sockaddr *) &client, &client_len);
 
