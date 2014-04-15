@@ -20,40 +20,41 @@ int main(int argc, char ** argv){
   int rval;
   int pid;
 
+
   if (argc != 2) {
     fprintf(stderr,"usage: %s port\n",argv[0]);
     exit(1);
   }
 
 
-  /* Create socket */
-  sock =socket(AF_INET, SOCK_STREAM, 0);
+  sock = socket(AF_INET, SOCK_STREAM, 0);
   if(sock < 0){
     perror("Echec lors de la creation du socket");
     exit(1);
   }
 
+
   server.sin_family = AF_INET;
   server.sin_addr.s_addr = INADDR_ANY;
   server.sin_port = htons(atoi(argv[1]));/* port utilisé par le serveur */
 
-  /* Call bind */
-  if(bind(sock, (struct sockaddr *) &server, sizeof(server))){
+
+  if(bind(sock, (struct sockaddr *) &server, sizeof(sockaddr_in))){
     perror("Echec lors du bind");
     exit(1);
   }
 
-  /* Listen */
+
   listen(sock, 5);
 
   
   printf("Serveur en écoute sur le port %d\n", ntohs(server.sin_port));
 
 
-  /* Accept */
+
   while(1){
     struct sockaddr_in client = { 0 };
-    int client_len = sizeof(client);
+    int client_len = sizeof(sockaddr_in);
 
     mysock = accept(sock, (struct sockaddr *) &client, &client_len);
 
@@ -67,7 +68,7 @@ int main(int argc, char ** argv){
                  perror("Echec lors du accept");
                }else{
                  memset(buff, 0, BUFF_LEN);
-                 if((rval = recv(mysock, buff, BUFF_LEN, 0)) < 0)
+                 if((rval = read(mysock, buff, BUFF_LEN)) < 0)
                    perror("Echec lors de la lecture");
                  else if(rval == 0)
                    printf("Fin de la connection");
