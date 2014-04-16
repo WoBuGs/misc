@@ -12,7 +12,6 @@
 
 
 int main(int argc, char ** argv){
-  /* Variables */
   int sock;
   struct sockaddr_in server;
   int mysock;
