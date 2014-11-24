@@ -3,9 +3,13 @@
 *.out
 *.nav
 *.toc
+*.lof
 *.snm
 *.cpt
 *.gz
 
 *.swp
 *.o
+
+*.cmo
+*.cmi
