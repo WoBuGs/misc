@@ -122,13 +122,13 @@ alias MV='mv'
 alias RM='rm'
 
 #Connexions ssh
-alias iie='~/ENSIIE/Assoces/arise/perso.iiens.net.sh'
+alias iie='~/ENSIIE/Depots/perso.iiens.net/Assoces/arise/perso.iiens.net.sh'
 
 #*****************
 #**"Compilation"**
 #*****************
 #chargement d'un fichier ocaml + utilisation des touches directionnelles
-alias caml='ledit ocaml -init'
+alias caml='clear; ledit ocaml -init'
 
 
 #Nettoie un dossier après compilation latex
