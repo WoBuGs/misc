@@ -113,23 +113,3 @@ fi
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
-
-#Navigation avec touche maj. pressée
-alias CD='cd'
-alias LS='ls'
-alias CP='cp'
-alias MV='mv'
-alias RM='rm'
-
-#Connexions ssh
-alias iie='~/ENSIIE/Depots/perso.iiens.net/Assoces/arise/perso.iiens.net.sh'
-
-#*****************
-#**"Compilation"**
-#*****************
-#chargement d'un fichier ocaml + utilisation des touches directionnelles
-alias caml='clear; ledit ocaml -init'
-
-
-#Nettoie un dossier après compilation latex
-alias lc='rm -f *.aux *.log *.out *.nav *.toc *.snm *.cpt *.gz'
