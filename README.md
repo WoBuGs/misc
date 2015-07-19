@@ -2,7 +2,7 @@ Various Templates
 ======
 
 # Configuration files
-- Shell
+- Bash
 - Git
 - Vim
 

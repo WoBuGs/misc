@@ -1,0 +1,6 @@
+alias u='cd ..'
+alias grep='grep --color=auto'
+
+alias ls='ls -G'
+alias ll='ls -lAthG'
+alias la='ls -AG'
