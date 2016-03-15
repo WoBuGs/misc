@@ -3,7 +3,7 @@
 	status = auto
 	branch = auto
 [user]
-	name = WoBuGs
+	name = Alexandre Jacquin
 	email = alexander.jacquin@gmail.com
 [core]
 	autocrlf = input

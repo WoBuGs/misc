@@ -1,4 +1,5 @@
 syntax on
+colorscheme monokai
 
 set background=dark
 
@@ -29,9 +30,11 @@ set number
 " Mise en valeur la ligne courante
 set cursorline
 
+" Tabulations
 set expandtab
 set tabstop=2
 set shiftwidth=2
 set smarttab
 
+" Divers
 set hlsearch
