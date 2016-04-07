@@ -2,9 +2,11 @@ Various Templates
 ======
 
 # Configuration files
-- Bash
+- Zsh
+- Bash (.profile)
 - Git
 - Vim
+- Tmux
 
 # Templates
 - C Sockets
